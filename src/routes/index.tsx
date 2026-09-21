@@ -1,24 +1,26 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, CalendarDays, Check, HeartHandshake, LineChart, Sparkles, Trophy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Ball, Brand, ImpactBadge, PublicHeader, SectionHeading } from "@/components/digital-heroes";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const benefits = [
+  { Icon: LineChart, title: "Track your form", copy: "Log Stableford scores and see your latest performance at a glance." },
+  { Icon: Trophy, title: "Enter every draw", copy: "Every active membership gives you an automatic monthly entry." },
+  { Icon: HeartHandshake, title: "Back your cause", copy: "Choose where a share of your membership creates lasting change." },
+];
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({ meta: [{ title: "Digital Heroes — Play. Win. Give back." }, { name: "description", content: "Track your golf, enter monthly prize draws, and support a charity you care about." }, { property: "og:title", content: "Digital Heroes — Play. Win. Give back." }, { property: "og:description", content: "A premium golf rewards membership with real social impact." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  component: LandingPage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+function LandingPage() {
+  return <div className="min-h-screen overflow-hidden"><PublicHeader />
+    <main>
+      <section className="hero-wash relative min-h-[690px] soft-grid"><div className="mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28"><div className="relative z-10"><ImpactBadge>Golf that gives back</ImpactBadge><h1 className="mt-7 max-w-3xl font-display text-5xl font-extrabold leading-[1.05] sm:text-6xl lg:text-7xl">Play your game. <span className="text-primary">Create an impact.</span></h1><p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground">One membership brings your scores, monthly prize draws, and charitable giving together in a beautifully simple experience.</p><div className="mt-9 flex flex-wrap gap-3"><Button asChild size="lg"><Link to="/signup">Become a hero <ArrowRight /></Link></Button><Button asChild size="lg" variant="outline"><Link to="/dashboard">Explore dashboard</Link></Button></div><div className="mt-10 flex flex-wrap gap-5 text-sm font-semibold text-muted-foreground"><span className="flex items-center gap-2"><Check className="size-4 text-success" />Cancel anytime</span><span className="flex items-center gap-2"><Check className="size-4 text-success" />£12 per month</span><span className="flex items-center gap-2"><Check className="size-4 text-success" />10%+ to charity</span></div></div>
+      <div className="relative mx-auto w-full max-w-lg"><div className="absolute -left-7 top-12 h-40 w-40 rounded-full bg-accent/70 blur-3xl" /><div className="relative rotate-1 rounded-3xl border border-border bg-card p-6 premium-shadow transition-transform hover:rotate-0"><div className="flex items-center justify-between"><div><p className="text-xs font-bold uppercase text-muted-foreground">October draw</p><p className="mt-1 font-display text-2xl font-extrabold">£25,000 jackpot</p></div><span className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-secondary-foreground">18 days</span></div><div className="my-10 flex justify-center -space-x-1"><Ball>07</Ball><Ball>16</Ball><Ball>28</Ball><Ball tone="impact">41</Ball><Ball tone="impact">52</Ball></div><div className="grid grid-cols-2 gap-3"><div className="rounded-xl bg-muted p-4"><p className="text-xs font-semibold text-muted-foreground">Your best score</p><p className="mt-2 text-2xl font-extrabold">38 pts</p></div><div className="rounded-xl bg-accent p-4"><p className="text-xs font-semibold text-accent-foreground/70">Your giving</p><p className="mt-2 text-2xl font-extrabold text-accent-foreground">£72.40</p></div></div></div></div></div></section>
+      <section className="bg-card py-24"><div className="mx-auto max-w-7xl px-5 lg:px-8"><SectionHeading center eyebrow="Simple by design" title="Three ways every round means more" copy="Play as you normally do. Your membership does the rest."/><div className="mt-14 grid gap-5 md:grid-cols-3">{benefits.map(({Icon,title,copy},i)=><div key={title} className="rounded-2xl border border-border bg-background p-7 transition-transform hover:-translate-y-1"><span className="grid size-12 place-items-center rounded-xl bg-secondary text-primary"><Icon className="size-5" /></span><p className="mt-8 text-xs font-bold text-muted-foreground">0{i+1}</p><h3 className="mt-2 text-xl font-bold">{title}</h3><p className="mt-3 leading-7 text-muted-foreground">{copy}</p></div>)}</div></div></section>
+      <section className="py-24"><div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-2 lg:px-8"><div className="rounded-3xl bg-foreground p-8 text-background sm:p-11"><p className="text-xs font-bold uppercase text-warning">Monthly prize draw</p><h2 className="mt-4 text-4xl font-extrabold">One membership.<br/>Three ways to win.</h2><p className="mt-5 max-w-md text-background/65">Matched against the monthly numbers using your five most recent Stableford scores.</p><div className="mt-10 grid gap-3">{[["3","£100 cash prize"],["4","£2,500 major prize"],["5","Progressive jackpot"]].map(([n,t])=><div key={n} className="flex items-center justify-between rounded-xl bg-background/8 p-4"><span className="font-semibold">Match {n} numbers</span><span className="font-bold text-warning">{t}</span></div>)}</div><Button asChild variant="secondary" className="mt-8"><Link to="/draw">See this month’s draw <ArrowRight /></Link></Button></div><div className="impact-wash rounded-3xl border border-border p-8 sm:p-11"><SectionHeading eyebrow="Charity impact" title="Your choice. Your contribution." copy="Direct at least 10% of every membership fee to a verified charity, then follow the collective impact grow."/><div className="mt-10 rounded-2xl bg-card p-6 premium-shadow"><div className="flex items-center gap-4"><span className="grid size-12 place-items-center rounded-xl bg-accent text-accent-foreground"><HeartHandshake /></span><div><p className="font-bold">Youth on Course UK</p><p className="text-sm text-muted-foreground">Featured charity · October</p></div></div><div className="mt-6 flex items-end justify-between"><div><p className="text-xs font-semibold text-muted-foreground">Raised this month</p><p className="text-3xl font-extrabold">£18,426</p></div><p className="text-sm font-bold text-success">92% funded</p></div><div className="mt-4 h-2 overflow-hidden rounded-full bg-muted"><div className="h-full w-[92%] bg-success" /></div></div></div></div></section>
+      <section className="px-5 pb-24 lg:px-8"><div className="mx-auto max-w-7xl rounded-3xl bg-primary px-7 py-16 text-center text-primary-foreground sm:px-12"><Sparkles className="mx-auto size-7"/><h2 className="mt-5 text-4xl font-extrabold">Make your next round count.</h2><p className="mx-auto mt-4 max-w-xl text-primary-foreground/75">Join a community playing for better golf, exciting rewards, and a bigger impact.</p><Button asChild size="lg" variant="secondary" className="mt-8"><Link to="/signup">Start for £12/month <ArrowRight /></Link></Button></div></section>
+    </main><footer className="border-t border-border bg-card"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-9 sm:flex-row sm:items-center sm:justify-between lg:px-8"><Brand/><p className="text-sm text-muted-foreground">© 2026 Digital Heroes. Play well. Do good.</p><div className="flex gap-5 text-sm font-semibold text-muted-foreground"><Link to="/charities">Charities</Link><Link to="/draw">Draws</Link></div></div></footer></div>;
 }
